@@ -1,0 +1,27 @@
+{
+  "name": "hiringtest_faq",
+  "version": "1.0.0",
+  "description": "Bharat FD hiring test",
+  "homepage": "https://github.com/nitin562/HiringTest_FAQ#readme",
+  "bugs": {
+    "url": "https://github.com/nitin562/HiringTest_FAQ/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nitin562/HiringTest_FAQ.git"
+  },
+  "license": "ISC",
+  "author": "Nitin",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "express-validator": "^7.2.1",
+    "mongoose": "^8.9.6"
+  }
+}
