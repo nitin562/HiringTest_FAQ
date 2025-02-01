@@ -10,7 +10,7 @@ app.set('view cache', false);
 
 app.use(express.static("public"))
 app.use("/",require("./api/ssr.js"))
-
+app.use("/api",require("./api/faq.js"))
 
 app.listen(port,()=>{
     console.log("Server is started at ",port)

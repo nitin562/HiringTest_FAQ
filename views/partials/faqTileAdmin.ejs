@@ -1,0 +1,53 @@
+<li id="faq-<%= faq._id %>">
+  <h3 class="question"><%= faq.question %></h3>
+  <p class="answer"><%= faq.answer %></p>
+  <button class="edit-btn" data-id="<%= faq._id %>">Edit</button>
+  <button class="save-btn hidden" data-id="<%= faq._id %>">Save</button>
+</li>
+
+<script>
+  document.querySelectorAll('.edit-btn').forEach(button => {
+    button.addEventListener('click', function() {
+      const id = this.dataset.id;
+      const container = document.getElementById(`faq-${id}`);
+
+      const questionEl = container.querySelector('.question');
+      const answerEl = container.querySelector('.answer');
+
+      // Convert question to input field
+      const input = document.createElement('input');
+      input.value = questionEl.innerText;
+      questionEl.replaceWith(input);
+
+      // Convert answer to Quill editor
+      const quillContainer = document.createElement('div');
+      quillContainer.innerHTML = answerEl.innerHTML;
+      answerEl.replaceWith(quillContainer);
+
+      const quill = new Quill(quillContainer, { theme: 'snow' });
+
+      // Toggle buttons
+      button.classList.add('hidden');
+      container.querySelector('.save-btn').classList.remove('hidden');
+
+      // Save function
+      container.querySelector('.save-btn').addEventListener('click', async function() {
+        const updatedData = {
+          question: input.value,
+          answer: quill.root.innerHTML,
+        };
+
+        const res = await fetch(`/api/faqs/${id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(updatedData)
+        });
+
+        const data = await res.json();
+        if (data.success) {
+          location.reload();  // Reload the page to reflect changes
+        }
+      });
+    });
+  });
+</script>

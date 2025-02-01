@@ -1,0 +1,10 @@
+
+<ul>
+    <% faqs.forEach(faq => { %>
+      <% if (admin) { %>
+        <%- include('faqTileAdmin', { faq: faq }) %>
+      <% } else { %>
+        <%- include('faqTileUser', { faq: faq }) %>
+      <% } %>
+    <% }) %>
+  </ul>

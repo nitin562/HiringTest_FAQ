@@ -23,6 +23,10 @@ nav {
     background-color: #100606;
     justify-content: space-between;
 }
+.admin-nav{
+    justify-content: end;
+    background-color: transparent;
+}
 nav span{
     font-size: 2rem;
 
@@ -51,8 +55,20 @@ nav ul a{
   
     
 }
+.admin-nav ul a{
+    background-color: #7d0a40;
+    border: none;
+}
 nav a:hover{
     color: rgb(4, 253, 149);
     border-color:#14e79a;
     
+}
+
+.global-lang-selector{
+    padding: 4px;
+    outline: none;
+    width: 6rem;
+
+    border-radius: 0.5rem;
 }

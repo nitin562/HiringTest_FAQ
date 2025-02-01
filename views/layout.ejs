@@ -1,13 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/style.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/style.css" />
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
     <title><%= title %></title>
-</head>
-<body>
-    <%- include('partials/nav.ejs') %>
-    <%= body %>
-</body>
+  </head>
+  <body>
+    <%- include('partials/nav.ejs',{admin,lang_enum,lang:faqs?.lang}) %> 
+
+    <% if (admin == true) { %> 
+      <%- include('partials/adminNav.ejs') %> 
+    <% } %>  <!-- ✅ Removed extra closing tag -->
+
+    <% if (render == "faqList") { %> 
+      <%- include('faqList.ejs', { faqs: faqs.content, lang: faqs.lang, admin: admin }) %> 
+    <% } else { %>
+      <p><%= error %></p>
+    <% } %>
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
 </html>

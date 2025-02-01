@@ -1,7 +1,16 @@
 <nav>
     <span>Your FAQ</span>
   <ul>
+  <% if (lang_enum) { %>
+    <select class="global-lang-selector"">
+   <% lang_enum.forEach(element => { %>
+    <option value=<%= element.term %>><%= element.language %></option>
+   <% }) %>
+  </select>
+  <% } %>
     <a href="/">FAQs</a>
-    <a href="/admin">Admin</a>
+    <% if (admin==false) { %>
+      <a href="/admin">Admin</a>
+    <% } %>
   </ul>
 </nav>
