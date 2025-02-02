@@ -4,7 +4,7 @@ const FAQ = require("../model/faq");
 const translateTo = require("../helpers/translate");
 const { getCache, updateCache } = require("../helpers/redisOper");
 const redis = require("../helpers/redisClient");
-const languageEnum = ["hi"];
+const languageEnum = ["hi","bn"];
 const TranslateTo = asyncHandler(async (req, res) => {
   //translate particular faq for admin
   const { lang, id } = req.params;
