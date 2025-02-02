@@ -38,32 +38,32 @@ View Demo at https://drive.google.com/file/d/1JmnBSu6u01_WwF2veOcW3g-oT12zfmTL/v
 
 ### 1. **Get All FAQs**
 - **Method:** `GET`
-- **Endpoint:** `/faqs?lang={language_code}`
+- **Endpoint:** `/api/faqs?lang={language_code}`
 - **Description:** Fetch all FAQs with an option to retrieve them in a specified language.
 - **Query Parameters:**
   - `lang` (optional): The language code (e.g., `en` for English, `hi` for Hindi, `bn` for Bengali).
 - **Example Request:**
-- Get /faqs?lang=hi
+- Get /api/faqs?lang=hi
 - **Response:** Returns a list of FAQs translated into the requested language.
 
 ---
 
 ### 2. **Get a Single FAQ by ID**
 - **Method:** `GET`
-- **Endpoint:** `/faq/:id/:lang`
+- **Endpoint:** `/api/faq/:id/:lang`
 - **Description:** Retrieve a specific FAQ by its unique ID and optional language translation.
 - **Path Parameters:**
 - `id`: The unique FAQ identifier.
 - `lang`: The desired language code (default: `en`).
 - **Example Request:**  
-- Get /faq/123/hi
+- Get /api/faq/123/hi
 - **Response:** Returns the requested FAQ, translated into the given language.
 
 ---
 
 ### 3. **Create a New FAQ**
 - **Method:** `POST`
-- **Endpoint:** `/faq`
+- **Endpoint:** `/api/faq`
 - **Description:** Add a new FAQ entry to the database.
 - **Request Body:** (JSON format)
 ```json
@@ -78,7 +78,7 @@ View Demo at https://drive.google.com/file/d/1JmnBSu6u01_WwF2veOcW3g-oT12zfmTL/v
 
 ### 3. **Edit a FAQ**
 - **Method:** `PATCH`
-- **Endpoint:** `/faq`
+- **Endpoint:** `/api/faq`
 - **Description:** Edit a FAQ and store in the database.
 - **Request Body:** (JSON format)
 ```json
