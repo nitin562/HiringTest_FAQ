@@ -33,7 +33,7 @@ const getFAQs = asyncHandler(async (req, res) => {
     lang = "en";
   }
   const cache = await getCache(lang);
-  if (cache) {
+  if (cache && cache.length!=0) {
     console.log(cache, "cache");
     return res
       .status(201)
