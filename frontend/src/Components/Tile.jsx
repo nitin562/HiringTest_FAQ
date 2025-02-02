@@ -18,33 +18,26 @@ const Tile = ({ faq, lang, isEditing, setEditingId, onSave }) => {
 
   // Fetch translation when language changes
   const handleLanguageChange = async (newLang) => {
-    
-
-    
-      try {
-        const url=links.base+links.translateTo+`/${faq.id}/${newLang}`
-        const res = await fetch(url);
-        const result = await res.json();
-        console.log(result)
-        if(result.success){
-          const {content}=result.data
-          setQuestion(content.question);
-          setAnswer(content.answer);
-        }
-        else{
-          alert(result.msg||"Server Error Occurred")
-        }
-       
-      } catch (err) {
-        console.error("Error fetching translation:", err);
-        alert("Unable to Fetch- Error Occurred")
-
+    try {
+      const url = links.base + links.translateTo + `/${faq.id}/${newLang}`;
+      const res = await fetch(url);
+      const result = await res.json();
+      console.log(result);
+      if (result.success) {
+        const { content } = result.data;
+        setQuestion(content.question);
+        setAnswer(content.answer);
+      } else {
+        alert(result.msg || "Server Error Occurred");
       }
-    
+    } catch (err) {
+      console.error("Error fetching translation:", err);
+      alert("Unable to Fetch- Error Occurred");
+    }
   };
-  useEffect(()=>{
-    handleLanguageChange(selectedLang)
-  },[selectedLang])
+  useEffect(() => {
+    handleLanguageChange(selectedLang);
+  }, [selectedLang]);
   // Handle Save
   const handleSave = () => {
     onSave(faq.id, question, answer);
@@ -78,9 +71,12 @@ const Tile = ({ faq, lang, isEditing, setEditingId, onSave }) => {
         {isEditing ? (
           <ReactQuill value={question} onChange={setQuestion} />
         ) : (
-          <div className="p-2 border"  dangerouslySetInnerHTML={{
-            __html: DOMPurify.sanitize(question),
-          }}></div>
+          <div
+            className="p-2 border"
+            dangerouslySetInnerHTML={{
+              __html: DOMPurify.sanitize(question),
+            }}
+          ></div>
         )}
       </div>
 
@@ -90,9 +86,12 @@ const Tile = ({ faq, lang, isEditing, setEditingId, onSave }) => {
         {isEditing ? (
           <ReactQuill value={answer} onChange={setAnswer} />
         ) : (
-          <div className="p-2 border"  dangerouslySetInnerHTML={{
-            __html: DOMPurify.sanitize(answer),
-          }}></div>
+          <div
+            className="p-2 border"
+            dangerouslySetInnerHTML={{
+              __html: DOMPurify.sanitize(answer),
+            }}
+          ></div>
         )}
       </div>
 
@@ -116,8 +115,8 @@ const Tile = ({ faq, lang, isEditing, setEditingId, onSave }) => {
         ) : (
           <button
             onClick={() => {
-              setEditingId(faq.id)
-              setSelectedLang("en")
+              setEditingId(faq.id);
+              setSelectedLang("en");
             }}
             className="bg-blue-500 text-white px-4 py-2 rounded"
           >

@@ -41,7 +41,7 @@ const NewFaq = () => {
   };
 
   return (
-    <div className="w-full flex-1 bg-white p-6 rounded-lg ">
+    <div className="w-[80%] flex-1 mx-auto my-6 bg-[#fff] p-6 scrollbar  ">
       <h2 className="text-xl font-semibold mb-4">Add FAQ</h2>
 
       {/* Question Input */}

@@ -3,3 +3,23 @@
 *{
     font-family: "Lato";
 }
+.scrollbar {
+    overflow: hidden auto;
+}
+
+.scrollbar::-webkit-scrollbar {
+  width: 0.3rem;
+
+}
+.scrollbar::-webkit-scrollbar-track {
+   
+
+  width: 0.1rem;
+  background-color: rgba(11, 112, 51, 0);
+  border-radius: 3rem;
+}
+.scrollbar::-webkit-scrollbar-thumb {
+  width: 0.05rem;
+  background-color: #019e16;
+  border-radius: 2.5rem;
+}

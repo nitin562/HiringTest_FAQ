@@ -72,7 +72,7 @@ const FaqList = () => {
       </div>
 
       {/* Render FAQ Tiles */}
-      <div className="flex-1 bg-slate-900 overflow-auto flex flex-wrap gap-4">
+      <div className="flex-1 w-[80%] mx-auto bg-slate-900 overflow-auto flex flex-wrap gap-4 scrollbar">
         {faqs.map((faq) => (
           <Tile
             key={faq.id}

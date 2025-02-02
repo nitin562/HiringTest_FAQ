@@ -7,7 +7,7 @@ import FaqList from './FaqList'
 
 export default function Home() {
   return (
-    <div className='w-full h-full flex flex-col bg-[#000957] overflow-hidden'>
+    <div className='w-screen h-screen flex flex-col bg-[#0b1039] overflow-hidden'>
         <Nav/>
         <Routes>
             <Route path="/" element={<FaqList/>}/>
