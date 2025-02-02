@@ -1,7 +1,12 @@
 const redis = require("./redisClient");
 const getCache=async(lang)=>{
     const cache=await redis.get(`faqs_${lang}`)
-    return cache
+    if(cache){
+        if(JSON.parse(cache).length!=0){
+            return cache
+        }
+    }
+    return null
 }
 const updateCache=async(newFaq,id=null)=>{
     //newFaq is mongodb object
