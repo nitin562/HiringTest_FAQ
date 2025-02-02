@@ -10,16 +10,17 @@ const translateTo = async (from,to,content) => {
       "x-rapidapi-host": process.env.host,
       "Content-Type": "application/json",
     },
-    body: {
+    body: JSON.stringify({
       from,
       to,
       html: content,
-    },
+    }),
   };
-
+  console.log(options)
   try {
     const response = await fetch(url, options);
-    const result = await response.text();
+    const result = await response.json();
+    console.log(result)
     return {success:true,result}
   } catch (error) {
     console.error(error);
