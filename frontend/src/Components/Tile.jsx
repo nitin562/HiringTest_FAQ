@@ -9,7 +9,7 @@ const Tile = ({ faq, lang, isEditing, setEditingId, onSave }) => {
 
   const [question, setQuestion] = useState(faq.question);
   const [answer, setAnswer] = useState(faq.answer);
-  const [load, setload] = useState(false)
+  const [load, setload] = useState(false);
   useEffect(() => {
     // Update question and answer when language changes
     setQuestion(faq.question);
@@ -37,12 +37,11 @@ const Tile = ({ faq, lang, isEditing, setEditingId, onSave }) => {
     }
   };
   useEffect(() => {
-   
     handleLanguageChange(selectedLang);
   }, [selectedLang]);
   // Handle Save
   const handleSave = () => {
-    onSave(faq.id, question, answer,setload);
+    onSave(faq.id, question, answer, setload);
   };
 
   return (
@@ -71,7 +70,11 @@ const Tile = ({ faq, lang, isEditing, setEditingId, onSave }) => {
       <div className="mb-2">
         <label className="block font-semibold">Question:</label>
         {isEditing ? (
-          <ReactQuill value={question} onChange={setQuestion} />
+          <ReactQuill
+            value={question}
+            onChange={setQuestion}
+            modules={modules}
+          />
         ) : (
           <div
             className="p-2 border"
@@ -86,7 +89,7 @@ const Tile = ({ faq, lang, isEditing, setEditingId, onSave }) => {
       <div className="mb-2">
         <label className="block font-semibold">Answer:</label>
         {isEditing ? (
-          <ReactQuill value={answer} onChange={setAnswer} />
+          <ReactQuill value={answer} onChange={setAnswer} modules={modules} />
         ) : (
           <div
             className="p-2 border"
@@ -108,13 +111,15 @@ const Tile = ({ faq, lang, isEditing, setEditingId, onSave }) => {
             >
               Save
             </button>
-            {!load&&<button
-              onClick={() => setEditingId(null)}
-              className="bg-red-500 cursor-pointer text-white px-4 py-2 rounded"
-            >
-              Cancel
-            </button>}
-            {load&&<Loader/>}
+            {!load && (
+              <button
+                onClick={() => setEditingId(null)}
+                className="bg-red-500 cursor-pointer text-white px-4 py-2 rounded"
+              >
+                Cancel
+              </button>
+            )}
+            {load && <Loader />}
           </div>
         ) : (
           <button

@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { links } from "../../links";
+import { links, modules } from "../../links";
 import Loader from "./Loader";
 
 const NewFaq = () => {
@@ -9,19 +9,19 @@ const NewFaq = () => {
   const [answer, setAnswer] = useState("");
   const ques = useRef(0);
   const answ = useRef(0);
-  const [load, setload] = useState(false)
+  const [load, setload] = useState(false);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setload(true)
-    const text_ques=ques.current.getEditor().getText().trim()
-    const text_answ=answ.current.getEditor().getText().trim()
+    setload(true);
+    const text_ques = ques.current.getEditor().getText().trim();
+    const text_answ = answ.current.getEditor().getText().trim();
     //html tags as states
     if (!text_ques || !text_answ) {
       alert("Both fields are required!");
-      setload(false)
+      setload(false);
       return;
     }
-    
+
     const url = links.base + links.addFaq;
     const options = {
       method: "POST",
@@ -33,15 +33,14 @@ const NewFaq = () => {
     const result = await fetch(url, options);
     const response = await result.json();
     console.log(response);
-    if(response.success==false){
-      alert(response?.msg||"FAQ is not saved due to server error")
-    }
-    else{
-      alert("FAQ is saved")
+    if (response.success == false) {
+      alert(response?.msg || "FAQ is not saved due to server error");
+    } else {
+      alert("FAQ is saved");
     }
     setQuestion("");
     setAnswer("");
-    setload(false)
+    setload(false);
   };
 
   return (
@@ -51,7 +50,7 @@ const NewFaq = () => {
       {/* Question Input */}
       <label className="block font-medium text-gray-700">Question:</label>
       <ReactQuill
-    
+        modules={modules}
         ref={ques}
         value={question}
         onChange={setQuestion}
@@ -62,6 +61,7 @@ const NewFaq = () => {
       {/* Answer Input */}
       <label className="block font-medium text-gray-700 mt-4">Answer:</label>
       <ReactQuill
+        modules={modules}
         ref={answ}
         value={answer}
         onChange={setAnswer}
@@ -71,14 +71,14 @@ const NewFaq = () => {
 
       {/* Submit Button */}
       <div className="flex w-full mt-4 items-center justify-end gap-4">
-      <button
-        onClick={handleSubmit}
-        disabled={load}
-        className="w-[10rem] bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition"
-      >
-        Submit
-      </button>
-      {load&&<Loader/>}
+        <button
+          onClick={handleSubmit}
+          disabled={load}
+          className="w-[10rem] bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition"
+        >
+          Submit
+        </button>
+        {load && <Loader />}
       </div>
     </div>
   );
