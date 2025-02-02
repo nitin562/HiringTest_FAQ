@@ -1,10 +1,14 @@
 const express=require("express")
+const cors=require("cors")
 require("dotenv").config()
 const app=express()
 const port=process.env.PORT||8000
-const connectDb = require("./ConnectToDb")
 app.use(express.json())
-app.use(require("cors")())
+app.use(cors({
+    origin:process.env.frontend
+}))
+const connectDb = require("./ConnectToDb")
+
 app.use("/",require("./api/ssr.js"))
 app.use("/api",require("./api/faq.js"))
 
