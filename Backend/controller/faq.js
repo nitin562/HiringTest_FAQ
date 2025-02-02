@@ -33,38 +33,34 @@ const getFAQs = asyncHandler(async (req, res) => {
     lang = "en";
   }
   const cache = await getCache(lang);
-  if (cache ) {
+  if (cache) {
     console.log(cache, "cache");
     return res
       .status(201)
       .json({ success: true, data: { content: JSON.parse(cache), lang } });
   }
   const faq = await FAQ.find({});
-  console.log(faq)
-  if (faq) {
-    const content = faq.map((faq) => {
-      if (faq.translations.has(lang)) {
-        return {
-          id: faq._id,
-          question: faq.translations.get(lang).question,
-          answer: faq.translations.get(lang).answer,
-        };
-      } else {
-        return {
-          id: faq._id,
-          question: faq.question,
-          answer: faq.answer,
-        };
-      }
-    });
-    // console.log("Content",content)
-    await redis.set(`faqs_${lang}`, JSON.stringify(content), "EX", 3600); // Expires in 1 hour
+  console.log(faq);
 
-    return res.status(201).json({ success: true, data: { content, lang } });
-  }
-  return res
-    .status(400)
-    .json({ success: false, type: "FAQ_Absent", msg: "FAQ is absent" });
+  const content = faq.map((faq) => {
+    if (faq.translations.has(lang)) {
+      return {
+        id: faq._id,
+        question: faq.translations.get(lang).question,
+        answer: faq.translations.get(lang).answer,
+      };
+    } else {
+      return {
+        id: faq._id,
+        question: faq.question,
+        answer: faq.answer,
+      };
+    }
+  });
+  // console.log("Content",content)
+  await redis.set(`faqs_${lang}`, JSON.stringify(content), "EX", 3600); // Expires in 1 hour
+
+  return res.status(201).json({ success: true, data: { content, lang } });
 });
 
 const addFaqs = asyncHandler((req, res) => {
