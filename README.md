@@ -20,7 +20,7 @@ This project is a backend system for managing FAQs (Frequently Asked Questions) 
 - **Translation**: Google Translate API (`rapidApi`)
 ## Demo Video
 
-![FAQ Management System Demo](https://drive.google.com/uc?export=view&id=13KMttFWaHvrtN8b66q-QyyodU915Rv1B)
+View Demo at https://drive.google.com/file/d/13KMttFWaHvrtN8b66q-QyyodU915Rv1B/view?usp=sharing
 
 
 ## 🚀 Skills Demonstrated Through Projects
