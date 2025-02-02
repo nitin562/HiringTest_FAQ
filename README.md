@@ -2,9 +2,12 @@
 
 This project is a backend system for managing FAQs (Frequently Asked Questions) with multi-language translation support. It includes a REST API for managing FAQs, caching for improved performance, and integration with a WYSIWYG editor for formatting answers.
 
-##DEPLOYED LINKS (Note : free instance will spin down with inactivity, which can delay requests by 50 seconds or more. So Please wait or view Video for Demo)
+## DEPLOYED LINKS 
+### Note : free instance will spin down with inactivity, which can delay requests by 50 seconds or more. So Please wait or view Video for Demo
+
 
 #Frontend - https://hiring-test-faq.vercel.app
+---
 #Backend - https://hiringtest-faq-backend.onrender.com
 
 ## Demo Video
