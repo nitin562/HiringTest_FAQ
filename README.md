@@ -18,3 +18,55 @@ This project is a backend system for managing FAQs (Frequently Asked Questions) 
 - **Caching**: Redis
 - **WYSIWYG Editor**: `react-quill`
 - **Translation**: Google Translate API (`rapidApi`)
+## Demo Video
+
+<iframe src="https://drive.google.com/file/d/1JmnBSu6u01_WwF2veOcW3g-oT12zfmTL/preview" width="640" height="360" allow="autoplay"></iframe>
+
+## 🚀 Skills Demonstrated Through Projects
+
+### 🔹 **FAQ Management System (MERN + Redis + Google Translate API)**
+- **Node.js & Express.js**: Built a REST API to manage FAQs with multi-language support.  
+- **MongoDB**: Stored FAQs with translation capabilities.  
+- **Redis Caching**: Optimized performance by caching translated FAQs.  
+- **React & React-Quill**: Integrated a WYSIWYG editor for rich text formatting.  
+- **Google Translate API**: Implemented automated translations for multilingual support.  
+
+## Installation & Setup
+### 1️⃣ Clone the Repository
+```bash
+git clone https://github.com/nitin562/HiringTest_FAQ.git
+cd HiringTest_FAQ
+```bash
+cd Backend
+npm install
+
+```bash
+npm run start
+
+```bash
+cd frontend
+npm install
+
+```bash
+npm run dev
+
+##Note: Make Sure Redis is installed in your system
+
+## Environment Variables Configuration
+
+To run this project, create a `.env` file in the root directory and add the following environment variables:
+
+```ini
+# Database Configuration
+DB=
+
+# Google Translate API Configuration
+Get from Rapid api website, for google translate api
+TRANSLATE_URL=
+KEY=
+HOST=
+
+# Redis Configuration
+REDIS_HOST=
+REDIS_PORT=
+
