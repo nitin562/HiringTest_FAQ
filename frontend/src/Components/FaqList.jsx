@@ -79,7 +79,7 @@ const FaqList = () => {
 
       {/* Render FAQ Tiles */}
       {!load&&<div className="flex-1 w-[80%] mx-auto overflow-auto flex flex-wrap gap-4 scrollbar">
-        {faqs.map((faq) => (
+        {faqs.length!=0&&faqs.map((faq) => (
           <Tile
             key={faq.id}
             faq={faq}
@@ -89,6 +89,7 @@ const FaqList = () => {
             onSave={handleSave}
           />
         ))}
+        {faqs.length==0&&<p className="text-3xl text-white text-center w-full">No FAQ Present Right Now</p>}
       </div>}
       {load&&<div className="flex-1 w-[80%] mx-auto flex justify-center items-center bg-slate-900/20"><Loader/></div>}
     </div>

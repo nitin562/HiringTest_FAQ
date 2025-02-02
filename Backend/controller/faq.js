@@ -40,6 +40,7 @@ const getFAQs = asyncHandler(async (req, res) => {
       .json({ success: true, data: { content: JSON.parse(cache), lang } });
   }
   const faq = await FAQ.find({});
+  console.log(faq)
   if (faq) {
     const content = faq.map((faq) => {
       if (faq.translations.has(lang)) {
