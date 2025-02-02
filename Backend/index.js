@@ -9,7 +9,6 @@ app.use(cors({
 }))
 const connectDb = require("./ConnectToDb")
 
-app.use("/",require("./api/ssr.js"))
 app.use("/api",require("./api/faq.js"))
 
 app.listen(port,()=>{
