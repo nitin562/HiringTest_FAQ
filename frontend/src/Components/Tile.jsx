@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import DOMPurify from "dompurify";
-import { links } from "../../links";
+import { links, modules } from "../../links";
 import Loader from "./Loader";
 const Tile = ({ faq, lang, isEditing, setEditingId, onSave }) => {
   const [selectedLang, setSelectedLang] = useState(lang);
