@@ -18,7 +18,7 @@ const Tile = ({ faq, lang, isEditing, setEditingId, onSave }) => {
 
   // Fetch translation when language changes
   const handleLanguageChange = async (newLang) => {
-    setSelectedLang(newLang);
+    
 
     
       try {
@@ -42,7 +42,9 @@ const Tile = ({ faq, lang, isEditing, setEditingId, onSave }) => {
       }
     
   };
-
+  useEffect(()=>{
+    handleLanguageChange(selectedLang)
+  },[selectedLang])
   // Handle Save
   const handleSave = () => {
     onSave(faq.id, question, answer);
@@ -60,7 +62,7 @@ const Tile = ({ faq, lang, isEditing, setEditingId, onSave }) => {
           <label className="text-sm font-bold mr-2">Language:</label>
           <select
             value={selectedLang}
-            onChange={(e) => handleLanguageChange(e.target.value)}
+            onChange={(e) => setSelectedLang(e.target.value)}
             className="p-1 border rounded"
           >
             <option value="en">English</option>
@@ -113,7 +115,10 @@ const Tile = ({ faq, lang, isEditing, setEditingId, onSave }) => {
           </div>
         ) : (
           <button
-            onClick={() => setEditingId(faq.id)}
+            onClick={() => {
+              setEditingId(faq.id)
+              setSelectedLang("en")
+            }}
             className="bg-blue-500 text-white px-4 py-2 rounded"
           >
             Edit

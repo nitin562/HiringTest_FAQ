@@ -2,6 +2,8 @@ const { validationResult } = require("express-validator");
 const asyncHandler = require("../helpers/asyncHandler");
 const FAQ = require("../model/faq");
 const translateTo = require("../helpers/translate");
+const { getCache, updateCache } = require("../helpers/redisOper");
+const redis = require("../helpers/redisClient");
 const languageEnum = ["hi"];
 const TranslateTo = asyncHandler(async (req, res) => {
   //translate particular faq for admin
@@ -32,6 +34,12 @@ const getFAQs = asyncHandler(async (req, res) => {
   if (!lang) {
     lang = "en";
   }
+  const cache=await getCache(lang)
+  if(cache){
+    console.log(cache,"cache")
+    return res.status(201).json({ success: true, data: { content:JSON.parse(cache), lang } });
+
+  }
   const faq = await FAQ.find({});
   if (faq) {
     const content = faq.map((faq) => {
@@ -49,6 +57,9 @@ const getFAQs = asyncHandler(async (req, res) => {
         };
       }
     });
+    // console.log("Content",content)
+    await redis.set(`faqs_${lang}`, JSON.stringify(content), "EX", 3600); // Expires in 1 hour
+
     return res.status(201).json({ success: true, data: { content, lang } });
   }
   return res
@@ -104,8 +115,9 @@ const addFaqs = asyncHandler((req, res) => {
       translations: map,
     };
     FAQ.create(faq).then(
-      (obj) => {
+      async(obj) => {
         console.log(obj, "Created");
+        await updateCache(obj)
         return res.status(200).json({ success: true });
       },
       (err) => {
@@ -165,8 +177,10 @@ const editFaqs = asyncHandler((req, res) => {
       translations: map,
     };
     FAQ.findByIdAndUpdate(id, faq, { new: true }).then(
-      (obj) => {
-        console.log(obj, "Created");
+      async(obj) => {
+        console.log(obj, "updated");
+        await updateCache(obj,id)
+
         return res.status(200).json({ success: true });
       },
       (err) => {

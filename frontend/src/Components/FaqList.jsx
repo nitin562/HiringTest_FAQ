@@ -49,6 +49,7 @@ const FaqList = () => {
       );
 
       setEditingId(null); // Exit edit mode
+      alert("Updated")
     } catch (err) {
       console.error("Error saving FAQ:", err);
     }
