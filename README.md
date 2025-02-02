@@ -32,6 +32,66 @@ View Demo at https://drive.google.com/file/d/1JmnBSu6u01_WwF2veOcW3g-oT12zfmTL/v
 - **Translation**: Google Translate API (`rapidApi`)
 
 
+---
+
+## API Endpoints
+
+### 1. **Get All FAQs**
+- **Method:** `GET`
+- **Endpoint:** `/faqs?lang={language_code}`
+- **Description:** Fetch all FAQs with an option to retrieve them in a specified language.
+- **Query Parameters:**
+  - `lang` (optional): The language code (e.g., `en` for English, `hi` for Hindi, `bn` for Bengali).
+- **Example Request:**
+- Get /faqs?lang=hi
+- **Response:** Returns a list of FAQs translated into the requested language.
+
+---
+
+### 2. **Get a Single FAQ by ID**
+- **Method:** `GET`
+- **Endpoint:** `/faq/:id/:lang`
+- **Description:** Retrieve a specific FAQ by its unique ID and optional language translation.
+- **Path Parameters:**
+- `id`: The unique FAQ identifier.
+- `lang`: The desired language code (default: `en`).
+- **Example Request:**  
+- Get /faq/123/hi
+- **Response:** Returns the requested FAQ, translated into the given language.
+
+---
+
+### 3. **Create a New FAQ**
+- **Method:** `POST`
+- **Endpoint:** `/faq`
+- **Description:** Add a new FAQ entry to the database.
+- **Request Body:** (JSON format)
+```json
+{
+  "question": "What is Node.js?",
+  "answer": "Node.js is a JavaScript runtime environment."
+}
+```
+- **Response:** Returns success parameter.
+
+---
+
+### 3. **Edit a FAQ**
+- **Method:** `PATCH`
+- **Endpoint:** `/faq`
+- **Description:** Edit a FAQ and store in the database.
+- **Request Body:** (JSON format)
+```json
+{
+  "id":123
+  "question": "What is Node.js(edited)?",
+  "answer": "Node.js is a JavaScript runtime environment.(edited)"
+}
+```
+-**Response:** Returns success parameter.
+
+---
+
 ## 🚀 Skills Demonstrated Through Projects
 
 ### 🔹 **FAQ Management System (MERN + Redis + Google Translate API)**
@@ -46,21 +106,22 @@ View Demo at https://drive.google.com/file/d/1JmnBSu6u01_WwF2veOcW3g-oT12zfmTL/v
 ```bash
 git clone https://github.com/nitin562/HiringTest_FAQ.git
 cd HiringTest_FAQ
+```
 ```bash
 cd Backend
 npm install
-
+```
 ```bash
 npm run start
-
+```
 ```bash
 cd frontend
 npm install
-
+```
 ```bash
 npm run dev
-
-##Note: Make Sure Redis is installed in your system
+```
+## Note: Make Sure Redis is installed in your system
 
 ## Environment Variables Configuration
 
@@ -80,3 +141,4 @@ HOST=
 REDIS_HOST=
 REDIS_PORT=
 
+```
