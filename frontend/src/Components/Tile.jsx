@@ -3,12 +3,13 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import DOMPurify from "dompurify";
 import { links } from "../../links";
+import Loader from "./Loader";
 const Tile = ({ faq, lang, isEditing, setEditingId, onSave }) => {
   const [selectedLang, setSelectedLang] = useState(lang);
 
   const [question, setQuestion] = useState(faq.question);
   const [answer, setAnswer] = useState(faq.answer);
-
+  const [load, setload] = useState(false)
   useEffect(() => {
     // Update question and answer when language changes
     setQuestion(faq.question);
@@ -40,7 +41,7 @@ const Tile = ({ faq, lang, isEditing, setEditingId, onSave }) => {
   }, [selectedLang]);
   // Handle Save
   const handleSave = () => {
-    onSave(faq.id, question, answer);
+    onSave(faq.id, question, answer,setload);
   };
 
   return (
@@ -98,19 +99,21 @@ const Tile = ({ faq, lang, isEditing, setEditingId, onSave }) => {
       {/* Buttons */}
       <div className="mt-4 flex gap-2">
         {isEditing ? (
-          <div className="flex gap-4">
+          <div className="flex items-center gap-4">
             <button
               onClick={handleSave}
-              className="bg-green-500 text-white px-4 py-2 rounded"
+              disabled={load}
+              className="bg-emerald-500 cursor-pointer text-white px-4 py-2 rounded"
             >
               Save
             </button>
-            <button
+            {!load&&<button
               onClick={() => setEditingId(null)}
-              className="bg-red-500 text-white px-4 py-2 rounded"
+              className="bg-red-500 cursor-pointer text-white px-4 py-2 rounded"
             >
               Cancel
-            </button>
+            </button>}
+            {load&&<Loader/>}
           </div>
         ) : (
           <button
@@ -118,7 +121,7 @@ const Tile = ({ faq, lang, isEditing, setEditingId, onSave }) => {
               setEditingId(faq.id);
               setSelectedLang("en");
             }}
-            className="bg-blue-500 text-white px-4 py-2 rounded"
+            className="bg-blue-500 cursor-pointer text-white px-4 py-2 rounded"
           >
             Edit
           </button>

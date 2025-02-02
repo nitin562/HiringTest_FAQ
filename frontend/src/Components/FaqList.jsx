@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import Tile from "./Tile";
 import { links } from "../../links";
+import Loader from "./Loader";
 
 const FaqList = () => {
   const [faqs, setFaqs] = useState([]);
   const [globalLang, setGlobalLang] = useState("en");
   const [editingId, setEditingId] = useState(null); // Track which tile is being edited
-
+  const [load, setload] = useState(false)
   // Fetch FAQs from API
   const handleFetchFaqs=async()=>{
+    setload(true)
     const url=links.base+links.getFaqs+`?lang=${globalLang}`
     const response=await fetch(url)
     const result=await response.json()
@@ -17,16 +19,20 @@ const FaqList = () => {
         const {content,lang}=result.data;
         setFaqs(content)
     }
+    else{
+      alert(result.msg||"Server Issue Occurred")
+    }
+    setload(false)
   }
   useEffect(() => {
-    console.log(globalLang)
+   
     handleFetchFaqs()
   }, [globalLang]);
 
   // Handle saving a specific FAQ
-  const handleSave = async (id, question,answer) => {
+  const handleSave = async (id, question,answer,setload) => {
     // console.log(updatedData)
-    
+    setload(true)
     try {
         const url=links.base+links.editFaq
       const res = await fetch(url, {
@@ -39,8 +45,6 @@ const FaqList = () => {
 
       const result=await res.json()
       if(result.success==false){
-      console.log(result)
-
         alert(result.msg || "Server Error occurred.")
       }
       // Update state with new data
@@ -50,8 +54,10 @@ const FaqList = () => {
 
       setEditingId(null); // Exit edit mode
       alert("Updated")
+      setload(false)
     } catch (err) {
       console.error("Error saving FAQ:", err);
+      setload(false)
     }
   };
 
@@ -72,7 +78,7 @@ const FaqList = () => {
       </div>
 
       {/* Render FAQ Tiles */}
-      <div className="flex-1 w-[80%] mx-auto bg-slate-900 overflow-auto flex flex-wrap gap-4 scrollbar">
+      {!load&&<div className="flex-1 w-[80%] mx-auto overflow-auto flex flex-wrap gap-4 scrollbar">
         {faqs.map((faq) => (
           <Tile
             key={faq.id}
@@ -83,7 +89,8 @@ const FaqList = () => {
             onSave={handleSave}
           />
         ))}
-      </div>
+      </div>}
+      {load&&<div className="flex-1 w-[80%] mx-auto flex justify-center items-center bg-slate-900/20"><Loader/></div>}
     </div>
   );
 };

@@ -2,20 +2,23 @@ import React, { useRef, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { links } from "../../links";
+import Loader from "./Loader";
 
 const NewFaq = () => {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const ques = useRef(0);
   const answ = useRef(0);
+  const [load, setload] = useState(false)
   const handleSubmit = async (e) => {
-    console.log(ques.current.getEditor().getText().trim(),answ.current)
+    e.preventDefault();
+    setload(true)
     const text_ques=ques.current.getEditor().getText().trim()
     const text_answ=answ.current.getEditor().getText().trim()
-    e.preventDefault();
     //html tags as states
     if (!text_ques || !text_answ) {
       alert("Both fields are required!");
+      setload(false)
       return;
     }
     
@@ -38,6 +41,7 @@ const NewFaq = () => {
     }
     setQuestion("");
     setAnswer("");
+    setload(false)
   };
 
   return (
@@ -66,12 +70,16 @@ const NewFaq = () => {
       />
 
       {/* Submit Button */}
+      <div className="flex w-full mt-4 items-center justify-end gap-4">
       <button
         onClick={handleSubmit}
-        className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition"
+        disabled={load}
+        className="w-[10rem] bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition"
       >
         Submit
       </button>
+      {load&&<Loader/>}
+      </div>
     </div>
   );
 };

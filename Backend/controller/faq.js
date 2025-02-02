@@ -4,18 +4,16 @@ const FAQ = require("../model/faq");
 const translateTo = require("../helpers/translate");
 const { getCache, updateCache } = require("../helpers/redisOper");
 const redis = require("../helpers/redisClient");
-const languageEnum = ["hi","bn"];
+const languageEnum = ["hi", "bn"];
 const TranslateTo = asyncHandler(async (req, res) => {
   //translate particular faq for admin
   const { lang, id } = req.params;
   if (!lang || !id) {
-    return res
-      .status(400)
-      .json({
-        success: false,
-        type: "Language",
-        msg: "Language Code or FAQ id are absent",
-      });
+    return res.status(400).json({
+      success: false,
+      type: "Language",
+      msg: "Language Code or FAQ id are absent",
+    });
   }
   const faq = await FAQ.findById(id);
   if (faq) {
@@ -30,15 +28,16 @@ const getFAQs = asyncHandler(async (req, res) => {
   //for end to end user to get all faqs in lang
   console.log("hey");
   let { lang } = req.query;
-  console.log(lang)
+  console.log(lang);
   if (!lang) {
     lang = "en";
   }
-  const cache=await getCache(lang)
-  if(cache){
-    console.log(cache,"cache")
-    return res.status(201).json({ success: true, data: { content:JSON.parse(cache), lang } });
-
+  const cache = await getCache(lang);
+  if (cache) {
+    console.log(cache, "cache");
+    return res
+      .status(201)
+      .json({ success: true, data: { content: JSON.parse(cache), lang } });
   }
   const faq = await FAQ.find({});
   if (faq) {
@@ -81,7 +80,7 @@ const addFaqs = asyncHandler((req, res) => {
   let content = question + "<!-- QUESTION_ANSWER_DELIM -->" + answer;
 
   let from = "en";
- 
+
   const map = new Map();
 
   let allpromise = languageEnum.map((lang) => {
@@ -95,8 +94,8 @@ const addFaqs = asyncHandler((req, res) => {
             map.set(lang, {
               question: splitTransArr[0],
               answer: splitTransArr[1],
-            })
-            resolve() // ✅ Resolve only after setting the value
+            });
+            resolve(); // ✅ Resolve only after setting the value
           } else {
             reject(new Error(`Translation failed for language: ${lang}`)); // ✅ Reject if translation fails
           }
@@ -108,16 +107,15 @@ const addFaqs = asyncHandler((req, res) => {
   });
 
   Promise.all(allpromise).then((val) => {
-    
     let faq = {
       question,
       answer,
       translations: map,
     };
     FAQ.create(faq).then(
-      async(obj) => {
+      async (obj) => {
         console.log(obj, "Created");
-        await updateCache(obj)
+        await updateCache(obj);
         return res.status(200).json({ success: true });
       },
       (err) => {
@@ -125,19 +123,16 @@ const addFaqs = asyncHandler((req, res) => {
         return res.status(500).json({ success: false, msg: "Server Error" });
       }
     );
-    
   });
 });
-const editFaqs = asyncHandler((req, res) => {
+const editFaqs = asyncHandler(async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res
       .status(400)
       .json({ success: false, type: "Client_Error", errors: errors.mapped() });
   }
-  //getTranslations
-  //default is english
-  //get for hindi and bengali means rest
+
   const { question, answer, id } = req.body;
   let content = question + "<!-- QUESTION_ANSWER_DELIM -->" + answer;
 
@@ -145,50 +140,40 @@ const editFaqs = asyncHandler((req, res) => {
 
   const map = new Map();
 
-  let allpromise = languageEnum.map((lang) => {
-    return new Promise((resolve, reject) => {
-      translateTo(from, lang, content)
-        .then((val) => {
-          if (val.success) {
-            const trans = val.result.trans;
-            console.log(val);
-            const splitTransArr = trans.split("<!-- QUESTION_ANSWER_DELIM -->");
-            
-            map.set(lang, {
-              question: splitTransArr[0],
-              answer: splitTransArr[1],
-            }); 
-            resolve()//Resolve only after setting the value
-          } else {
-            reject(new Error(`Translation failed for language: ${lang}`)); // ✅ Reject if translation fails
-          }
-        })
-        .catch((err) => {
-          reject(err); // ✅ Ensure errors are caught
-        });
-    });
-  });
+  try {
+    // Sequentially process language translations to avoid overloading the API
+    for (let lang of languageEnum) {
+      const val = await translateTo(from, lang, content);
 
-  Promise.all(allpromise).then((val) => {
-    console.log(map)
+      if (val.success) {
+        const trans = val.result.trans;
+        console.log(val);
+
+        const splitTransArr = trans.split("<!-- QUESTION_ANSWER_DELIM -->");
+        map.set(lang, {
+          question: splitTransArr[0],
+          answer: splitTransArr[1],
+        });
+      }
+    }
+
+    // After translations are completed, update the FAQ
     let faq = {
       question,
       answer,
       translations: map,
     };
-    FAQ.findByIdAndUpdate(id, faq, { new: true }).then(
-      async(obj) => {
-        console.log(obj, "updated");
-        await updateCache(obj,id)
 
-        return res.status(200).json({ success: true });
-      },
-      (err) => {
-        console.log(err);
-        return res.status(500).json({ success: false, msg: "Server Error" });
-      }
-    );
-  });
+    const obj = await FAQ.findByIdAndUpdate(id, faq, { new: true });
+
+    console.log(obj, "updated");
+    await updateCache(obj, id); // Cache update
+
+    return res.status(200).json({ success: true });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ success: false, msg: "Server Error" });
+  }
 });
 
 module.exports = { TranslateTo, addFaqs, editFaqs, getFAQs };

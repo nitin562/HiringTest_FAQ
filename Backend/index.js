@@ -5,7 +5,7 @@ const app=express()
 const port=process.env.PORT||8000
 app.use(express.json())
 app.use(cors({
-    origin:process.env.frontend
+    origin:"*"
 }))
 const connectDb = require("./ConnectToDb")
 
