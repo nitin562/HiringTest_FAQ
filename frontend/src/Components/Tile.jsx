@@ -37,9 +37,7 @@ const Tile = ({ faq, lang, isEditing, setEditingId, onSave }) => {
     }
   };
   useEffect(() => {
-    if(selectedLang==lang){
-      return
-    }
+   
     handleLanguageChange(selectedLang);
   }, [selectedLang]);
   // Handle Save
