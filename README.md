@@ -31,6 +31,8 @@ View Demo at https://drive.google.com/file/d/1JmnBSu6u01_WwF2veOcW3g-oT12zfmTL/v
 - **WYSIWYG Editor**: `react-quill`
 - **Translation**: Google Translate API (`rapidApi`)
 
+### Note: Initially I have given language support to 3 languages i.e english, hindi and bengali because of 1000 request limits per month provided by api(free).
+We can add more languages upto 79 but this will take 78 request per new FAQ that may crosses api limit after 12 Faqs. so to ensure the demo being runnable, i assume the 3 languages initially.
 
 ---
 
