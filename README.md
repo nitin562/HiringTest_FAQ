@@ -78,7 +78,7 @@ We can add more languages upto 79 but this will take 78 request per new FAQ that
 
 ---
 
-### 3. **Edit a FAQ**
+### 4. **Edit a FAQ**
 - **Method:** `PATCH`
 - **Endpoint:** `/api/faq`
 - **Description:** Edit a FAQ and store in the database.
